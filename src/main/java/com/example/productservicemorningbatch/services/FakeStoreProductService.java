@@ -37,19 +37,22 @@ public class FakeStoreProductService implements ProductService{
                         FakeStoreProductDto.class);
 
         if (fakeStoreProductDto==null){
-            return null;
+            return null ;
         }
         //Convert fakeStoreProductDto to product object.
         return convertFakeStoreToProduct(fakeStoreProductDto);
     }
     @Override
     public List<Product> getAllProducts() {
-        List<Product> productlist = new ArrayList<>();;
-        ResponseEntity<FakeStoreProductDto[]> responseEntity= restTemplate.getForEntity(
+//        ResponseEntity<FakeStoreProductDto[]> responseEntity= restTemplate.getForEntity(
+//                "https://fakestoreapi.com/products",
+//                FakeStoreProductDto[].class);
+        FakeStoreProductDto[] FakeStoreProductDto= restTemplate.getForObject(
                 "https://fakestoreapi.com/products",
                 FakeStoreProductDto[].class);
-
-        for(FakeStoreProductDto product:List.of(responseEntity.getBody())){
+        List<Product> productlist = new ArrayList<>();
+    //    for(FakeStoreProductDto product:List.of(responseEntity.getBody())){
+        for(FakeStoreProductDto product:FakeStoreProductDto){
             productlist.add(convertFakeStoreToProduct(product));
          }
         return productlist;
