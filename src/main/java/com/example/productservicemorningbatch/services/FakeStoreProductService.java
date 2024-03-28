@@ -1,10 +1,14 @@
 package com.example.productservicemorningbatch.services;
 
 import com.example.productservicemorningbatch.dto.FakeStoreProductDto;
+import com.example.productservicemorningbatch.dto.ProductDto;
 import com.example.productservicemorningbatch.models.Category;
 import com.example.productservicemorningbatch.models.Product;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpMessageConverterExtractor;
+import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -62,8 +66,14 @@ public class FakeStoreProductService implements ProductService{
         return null;
     }
     @Override
-    public Product replaceProduct() {
-        return null;
+    public Product replaceProduct(Long id, ProductDto productDto) {
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(productDto, FakeStoreProductDto.class);
+        HttpMessageConverterExtractor<FakeStoreProductDto> responseExtractor = new HttpMessageConverterExtractor(FakeStoreProductDto.class, restTemplate.getMessageConverters());
+        FakeStoreProductDto fakeStoreProductDto= restTemplate.execute("https://fakestoreapi.com/products/" + id, HttpMethod.PUT, requestCallback, responseExtractor);
+        System.out.println(fakeStoreProductDto);
+        Product product1=convertFakeStoreToProduct(fakeStoreProductDto);
+        System.out.println(product1);
+        return product1;
     }
     @Override
     public Product createProduct() {

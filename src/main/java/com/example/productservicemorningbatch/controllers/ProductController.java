@@ -1,4 +1,5 @@
 package com.example.productservicemorningbatch.controllers;
+import com.example.productservicemorningbatch.dto.ProductDto;
 import com.example.productservicemorningbatch.models.Product;
 import com.example.productservicemorningbatch.services.ProductService;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +35,8 @@ public class ProductController {
         return new Product();
     }
     @PutMapping("/{id}")
-    public Product replaceProduct(@PathVariable("id") Long id,@RequestBody Product product){
-        return new Product();
+    public Product replaceProduct(@PathVariable("id") Long id,@RequestBody ProductDto productDto){
+        return productService.replaceProduct(id,productDto);
     }
 
     @DeleteMapping("/{id}")
