@@ -1,16 +1,14 @@
 package com.example.productservicemorningbatch.services;
 
-import com.example.productservicemorningbatch.dto.FakeStoreProductDto;
-import com.example.productservicemorningbatch.dto.ProductDto;
+import com.example.productservicemorningbatch.dtos.FakeStoreProductDto;
+import com.example.productservicemorningbatch.dtos.ProductDto;
+import com.example.productservicemorningbatch.exceptions.invalidProductIdException;
 import com.example.productservicemorningbatch.models.Category;
 import com.example.productservicemorningbatch.models.Product;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpMessageConverterExtractor;
 import org.springframework.web.client.RequestCallback;
-import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -37,14 +35,13 @@ public class FakeStoreProductService implements ProductService{
         return product;
     }
     @Override
-    public Product getProductById(Long id) {
+    public Product getProductById(Long id) throws invalidProductIdException {
         //Call the FakeStore Api to get the product with the given ID here
         FakeStoreProductDto fakeStoreProductDto=
                 restTemplate.getForObject("https://fakestoreapi.com/products/"+id,
                         FakeStoreProductDto.class);
-
         if (fakeStoreProductDto==null){
-            return null ;
+            throw new invalidProductIdException(id,"Invalid product id passed");
         }
         //Convert fakeStoreProductDto to product object.
         return convertFakeStoreToProduct(fakeStoreProductDto);
