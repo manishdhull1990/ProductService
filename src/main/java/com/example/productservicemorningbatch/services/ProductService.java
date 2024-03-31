@@ -11,7 +11,8 @@ import java.util.Map;
 public interface ProductService {
     Product getProductById(Long id) throws invalidProductIdException;
     List<Product> getAllProducts();
-    Product updateProduct(Long id, Map<String,Object> fields);
+    Map<String,Object> updateProduct(Long id, Map<String,Object> fields);
+    //UpdateProductDto updateProduct(Long id, UpdateProductDto updateProductDto);
     Product replaceProduct(Long id, ProductDto productDto);
     Product createProduct(FakeStoreProductDto fakeStoreProductDto);
     FakeStoreProductDto deleteProduct(Long id);

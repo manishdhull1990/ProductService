@@ -51,9 +51,9 @@ public class ProductController {
         return productService.createProduct(fakeStoreProductDto);
     }
     @PatchMapping("/{id}")
-    public Product updateProduct(@PathVariable("id") Long id,@RequestBody Map<String,Object> fields){
+    public Map<String,Object> updateProduct(@PathVariable("id") Long id,@RequestBody Map<String,Object> fields){
+    //public UpdateProductDto updateProduct(@PathVariable("id") Long id,@RequestBody UpdateProductDto updateProductDto){
         return productService.updateProduct(id,fields);
-        //return new Product();
     }
     @PutMapping("/{id}")
     public Product replaceProduct(@PathVariable("id") Long id,@RequestBody ProductDto productDto){

@@ -62,18 +62,18 @@ public class FakeStoreProductService implements ProductService{
         return productlist;
     }
     @Override
-    public Product updateProduct(Long id, Map<String,Object> fields) {
+    public Map<String,Object> updateProduct(Long id, Map<String,Object> fields) {
+    //public UpdateProductDto updateProduct(Long id, UpdateProductDto updateProductDto) {
         /*RequestCallback requestCallback = restTemplate.httpEntityCallback(fields, FakeStoreProductDto.class);
         HttpMessageConverterExtractor<FakeStoreProductDto> responseExtractor = new HttpMessageConverterExtractor(FakeStoreProductDto.class, restTemplate.getMessageConverters());
         FakeStoreProductDto fakeStoreProductDto= restTemplate.execute("https://fakestoreapi.com/products/" + id, HttpMethod.PATCH, requestCallback, responseExtractor);
         */
-        FakeStoreProductDto fakeStoreProductDto=
-                restTemplate.patchForObject("https://fakestoreapi.com/products/"+id,fields,
-                        FakeStoreProductDto.class);
-        System.out.println(fakeStoreProductDto);
-        Product patchproduct=convertFakeStoreToProduct(fakeStoreProductDto);
-        System.out.println(patchproduct);
-        return patchproduct;
+
+        Map<String,Object> updateProduct=
+                restTemplate.patchForObject("https://fakestoreapi.com/products/"+id,
+                        fields, Map.class);
+        //System.out.println(updateProduct);
+        return updateProduct;
     }
     @Override
     public Product replaceProduct(Long id, ProductDto productDto) {
