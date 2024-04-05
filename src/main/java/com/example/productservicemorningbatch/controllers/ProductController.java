@@ -5,8 +5,10 @@ import com.example.productservicemorningbatch.exceptions.ProductControllerSpecif
 import com.example.productservicemorningbatch.exceptions.invalidProductIdException;
 import com.example.productservicemorningbatch.models.Product;
 import com.example.productservicemorningbatch.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +18,7 @@ import java.util.Map;
 @RequestMapping("/products")
 public class ProductController {
     private ProductService productService;
-    ProductController(ProductService productService){
+    ProductController(@Qualifier("selfProductService") ProductService productService){
         this.productService=productService;
     }
 
@@ -45,10 +47,9 @@ public class ProductController {
         /*int a=1/0;
         return null;*/
     }
-    @PostMapping("/")
-    public Product createProduct(@RequestBody FakeStoreProductDto fakeStoreProductDto) {
-        System.out.println("abc");
-        return productService.createProduct(fakeStoreProductDto);
+    @PostMapping
+    public Product createProduct(@RequestBody Product product) {
+        return productService.createProduct(product);
     }
     @PatchMapping("/{id}")
     public Map<String,Object> updateProduct(@PathVariable("id") Long id,@RequestBody Map<String,Object> fields){

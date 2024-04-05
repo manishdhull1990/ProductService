@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@Service("fakeStoreProductService")
 public class FakeStoreProductService implements ProductService{
     private RestTemplate restTemplate;
     FakeStoreProductService(RestTemplate restTemplate){
@@ -86,9 +86,9 @@ public class FakeStoreProductService implements ProductService{
         return putproduct;
     }
     @Override
-    public Product createProduct(FakeStoreProductDto fakeStoreProductDto) {
+    public Product createProduct(Product product) {
         FakeStoreProductDto newfakeStoreProductDto=
-                restTemplate.postForObject("https://fakestoreapi.com/products/",fakeStoreProductDto,
+                restTemplate.postForObject("https://fakestoreapi.com/products/",product,
                         FakeStoreProductDto.class);
         Product createdproduct=convertFakeStoreToProduct(newfakeStoreProductDto);
         return createdproduct;

@@ -14,6 +14,7 @@ public interface ProductService {
     Map<String,Object> updateProduct(Long id, Map<String,Object> fields);
     //UpdateProductDto updateProduct(Long id, UpdateProductDto updateProductDto);
     Product replaceProduct(Long id, ProductDto productDto);
-    Product createProduct(FakeStoreProductDto fakeStoreProductDto);
+    //Product createProduct(FakeStoreProductDto fakeStoreProductDto);
+    Product createProduct(Product product);
     FakeStoreProductDto deleteProduct(Long id);
 }
