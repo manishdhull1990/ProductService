@@ -52,9 +52,9 @@ public class ProductController {
         return productService.createProduct(product);
     }
     @PatchMapping("/{id}")
-    public Map<String,Object> updateProduct(@PathVariable("id") Long id,@RequestBody Map<String,Object> fields){
-    //public UpdateProductDto updateProduct(@PathVariable("id") Long id,@RequestBody UpdateProductDto updateProductDto){
-        return productService.updateProduct(id,fields);
+    //public Map<String,Object> updateProduct(@PathVariable("id") Long id,@RequestBody Map<String,Object> fields){
+    public Product updateProduct(@PathVariable("id") Long id,@RequestBody Product product){
+        return productService.updateProduct(id,product);
     }
     @PutMapping("/{id}")
     public Product replaceProduct(@PathVariable("id") Long id,@RequestBody ProductDto productDto){

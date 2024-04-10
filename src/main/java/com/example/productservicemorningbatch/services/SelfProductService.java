@@ -38,8 +38,20 @@ public class SelfProductService implements ProductService{
     }
 
     @Override
-    public Map<String, Object> updateProduct(Long id, Map<String, Object> fields) {
-        return null;
+    public Product updateProduct(Long id, Product product) {
+        Optional<Product> optionalProduct=productRepository.findById(id);
+        if (optionalProduct.isEmpty()) throw new RuntimeException();
+        Product currentProduct=optionalProduct.get();
+        if(product.getTitle()!=null){
+            currentProduct.setTitle(product.getTitle());
+        }
+        if(product.getDescription()!=null){
+            currentProduct.setDescription(product.getDescription());
+        }
+        if(product.getPrice()!=null){
+            currentProduct.setPrice(product.getPrice());
+        }
+        return productRepository.save(currentProduct);
     }
 
     @Override
@@ -50,10 +62,10 @@ public class SelfProductService implements ProductService{
     @Override
     public Product createProduct(Product product) {
         Category category=product.getCategory();
-        if (category.getId()==null){
-            Category savedCategory=categoryRepository.save(category);
-            product.setCategory(savedCategory);
-        }
+//        if (category.getId()==null){
+//            Category savedCategory=categoryRepository.save(category);
+//            product.setCategory(savedCategory);
+//        }
         return productRepository.save(product);
     }
 
