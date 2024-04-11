@@ -21,6 +21,9 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     Optional<Product> findTopThreeByTitle(String title); //limit the result by 3
 
     Optional<Product>  findByCategory(Category category);
+    List<Product> findAll();
+
+    void deleteById(Long Id);
 
     Product save(Product product);
 

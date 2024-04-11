@@ -34,7 +34,8 @@ public class SelfProductService implements ProductService{
 
     @Override
     public List<Product> getAllProducts() {
-        return null;
+        List<Product> products=productRepository.findAll();
+        return products;
     }
 
     @Override
@@ -51,6 +52,7 @@ public class SelfProductService implements ProductService{
         if(product.getPrice()!=null){
             currentProduct.setPrice(product.getPrice());
         }
+        System.out.println(currentProduct);
         return productRepository.save(currentProduct);
     }
 
@@ -71,6 +73,7 @@ public class SelfProductService implements ProductService{
 
     @Override
     public FakeStoreProductDto deleteProduct(Long id) {
+        productRepository.deleteById(id);
         return null;
     }
 }
