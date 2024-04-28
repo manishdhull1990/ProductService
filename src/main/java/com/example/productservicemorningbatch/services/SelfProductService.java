@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service("selfProductService")
+@Primary
 public class SelfProductService implements ProductService{
     private ProductRepository productRepository;
     private CategoryRepository categoryRepository;
@@ -27,7 +28,8 @@ public class SelfProductService implements ProductService{
     public Product getProductById(Long id) throws invalidProductIdException {
          Optional<Product> optionalProduct=productRepository.findById(id);
          if (optionalProduct.isEmpty()){
-             return null;
+             throw new invalidProductIdException(id,"Invalid Product Id");
+             //return null;
          }
          return optionalProduct.get();
     }

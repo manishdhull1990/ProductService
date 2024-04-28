@@ -1,6 +1,9 @@
 package com.example.productservicemorningbatch.controllers;
+import com.example.productservicemorningbatch.commons.AuthenticationCommons;
 import com.example.productservicemorningbatch.dtos.FakeStoreProductDto;
 import com.example.productservicemorningbatch.dtos.ProductDto;
+import com.example.productservicemorningbatch.dtos.Role;
+import com.example.productservicemorningbatch.dtos.UserDto;
 import com.example.productservicemorningbatch.exceptions.ProductControllerSpecificException;
 import com.example.productservicemorningbatch.exceptions.invalidProductIdException;
 import com.example.productservicemorningbatch.models.Product;
@@ -11,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +22,11 @@ import java.util.Map;
 @RequestMapping("/products")
 public class ProductController {
     private ProductService productService;
-    ProductController(@Qualifier("selfProductService") ProductService productService){
+    private AuthenticationCommons authenticationCommons;
+    ProductController(@Qualifier("selfProductService") ProductService productService,
+                      AuthenticationCommons authenticationCommons){
         this.productService=productService;
+        this.authenticationCommons=authenticationCommons;
     }
 
     //localhost:8080/products/30
@@ -40,9 +47,29 @@ public class ProductController {
         return null;*/
      }
     //localhost:8080/products
-    @GetMapping
-    public List<Product> getAllProducts(){
-        return productService.getAllProducts();
+    @GetMapping("/all/{token}")
+    public ResponseEntity<List<Product>> getAllProducts(@PathVariable String token){
+        //Validate the token using UserService
+        UserDto userDto = authenticationCommons.validateToken(token);
+
+        if (userDto == null){
+            //token is invalid
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        /*boolean isAdmin=false;
+        for (Role role : userDto.getRoles()){
+            if (role.equals("ADMIN")){
+                isAdmin=true;
+                break;
+            }
+        }
+
+        if (!isAdmin){
+            return null;
+        }*/
+
+        List<Product> products=productService.getAllProducts();
+        return new ResponseEntity<>(products,HttpStatus.OK);
         //return new ArrayList<>();
         /*int a=1/0;
         return null;*/

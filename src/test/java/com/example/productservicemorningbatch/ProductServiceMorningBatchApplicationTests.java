@@ -12,27 +12,8 @@ import java.util.List;
 
 @SpringBootTest
 class ProductServiceMorningBatchApplicationTests {
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private CategoryRepository categoryRepository;
     @Test
     void contextLoads() {
     }
-
-    @Test
-    public void testQueries(){
-        List<productWithIdAndTitle> products=productRepository.someRandomQuery();
-        for(productWithIdAndTitle product:products){
-            System.out.print(product.getId()+" ");
-            System.out.print(product.getTitle());
-        }
-
-        Product product1=productRepository.doSomethingSQL();
-
-        System.out.println("DEBUG");
-
-        categoryRepository.deleteById(52L);
-    }
-
 }
+
